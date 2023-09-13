@@ -10,6 +10,12 @@ def get_fruitvice_data(fruit_choice):
    fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
    return fruityvice_normalized
 
+def get_fruit_load_list():
+   with my_cnx.cursor() as my_cur:
+      my_cur.execute("select * from fruit_load_list")
+      my_data_row = my_cur.fetchall()
+      return my_data_row
+
 streamlit.title("My Parents New Healthy Diner");
 streamlit.header("Breakfast Menu");
 streamlit.text("🥣 Omega 3 & Blueberry Oatmeal");
@@ -39,12 +45,11 @@ try:
 except URLError as e:
   streamlit.error()
 
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("select * from fruit_load_list")
-my_data_row = my_cur.fetchall()
-streamlit.text("The fruit load list contains:")
-streamlit.dataframe(my_data_row)
+if streamlit.button('Get Fruits'):
+   my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+   get_fruit_load_list();
+   streamlit.text("The fruit load list contains:")
+   streamlit.dataframe(my_data_row)
 
 streamlit.stop();
 
