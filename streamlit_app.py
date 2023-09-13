@@ -51,10 +51,9 @@ if streamlit.button('Get Fruits'):
    streamlit.text("The fruit load list contains:")
    streamlit.dataframe(my_data_row)
 
-streamlit.stop();
-
 streamlit.text("What fruit to add?")
 fruit = streamlit.text_input('What fruit to add??','')
-streamlit.write('Thanks for adding ', fruit)
-my_cur.execute("insert into fruit_load_list values ('from streamlit') ")
 
+if streamlit.button('Insert'):
+   streamlit.write('Thanks for adding ', fruit)
+   my_cur.execute("insert into fruit_load_list values ('from streamlit') ")
